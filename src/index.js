@@ -1,1 +1,4 @@
-console.log('AAAAAAAAAAAAA')
+import {miFunction} from './js/components'
+
+
+miFunction();
