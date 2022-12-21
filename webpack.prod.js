@@ -2,18 +2,26 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CopyPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
     mode: 'production',
     output: {
-        filename: 'main.[contentHash].js',
+        filename: 'main.[hash].js',
         assetModuleFilename: 'assets/[hash][ext][query]'
     },
     optimization:{
-        minimizer: [new CssMinimizerPlugin(),]
+        minimize: true,
+        minimizer: [new CssMinimizerPlugin(), new TerserPlugin()]
     },
     module: {
         rules: [
+            // Babel
+            {
+                test: /\.js$/i,
+                exclude: /node_modules/,
+                use: ["babel-loader"],  
+            },
             // css dinámico
             {
                 test: /\.css$/i,
@@ -45,9 +53,10 @@ module.exports = {
             filename: './index.html'
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].[contentHash].css',
+            filename: '[name].[hash].css',
             ignoreOrder: false
         }),
+
         // new CopyPlugin({
         //     patterns: [
         //         { from: 'src/assets', to: 'assets/' },
