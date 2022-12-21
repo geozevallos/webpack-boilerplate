@@ -8,7 +8,8 @@ module.exports = {
     mode: 'production',
     output: {
         filename: 'main.[hash].js',
-        assetModuleFilename: 'assets/[hash][ext][query]'
+        assetModuleFilename: 'assets/[hash][ext][query]',
+        clean: true,
     },
     optimization:{
         minimize: true,
